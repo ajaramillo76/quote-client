@@ -7,9 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import edu.cnm.deepdive.quoteclient.R;
 import edu.cnm.deepdive.quoteclient.model.Quote;
 import edu.cnm.deepdive.quoteclient.view.QuoteRecyclerAdapter.Holder;
 import java.util.List;
+import org.w3c.dom.Text;
 
 public class QuoteRecyclerAdapter extends RecyclerView.Adapter<Holder> {
 
@@ -34,8 +36,7 @@ public class QuoteRecyclerAdapter extends RecyclerView.Adapter<Holder> {
   @NonNull
   @Override
   public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    // TODO Use a custom layout.
-    View root = LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_1, parent, false);
+    View root = LayoutInflater.from(context).inflate(R.layout.item_quote, parent, false);
     return new Holder(root);
   }
 
@@ -53,20 +54,25 @@ public class QuoteRecyclerAdapter extends RecyclerView.Adapter<Holder> {
   //  - Holds an inflated layout
   //  - Binds a specified object in the collection to the view objects in the inflated layout.
 
-  static class Holder extends RecyclerView.ViewHolder {
+  class Holder extends RecyclerView.ViewHolder {
 
     private final View root;
     // More fields for view objects inside root
+    private final TextView quoteText;
+    private final TextView quoteSource;
 
     private Holder(View root) {
       super(root);
       this.root = root;
+      quoteText = root.findViewById(R.id.quote_text);
+      quoteSource = root.findViewById(R.id.quote_source);
     }
 
     private void bind(int position, Quote quote) {
-      // TODO set contents of view fields to fields of quote.
-      ((TextView) root).setText(quote.getText());
-      // TODO Set any event listeners.
+      quoteText.setText(quote.getText());
+      quoteSource.setText((quote.getSource() != null)
+              ? quote.getSource().getName() : context.getString(R.string.unattributed_source));
+       // TODO Set any event listeners.
     }
 
   }
